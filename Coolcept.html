@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Coolcept - 时尚鞋类品牌</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* 背景图片 */
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1543163521-1bf539c55dd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            z-index: -1;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        /* 手机容器 */
+        .phone-container {
+            max-width: 100%;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        /* 顶部状态栏 */
+        .status-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .time {
+            font-weight: bold;
+        }
+        
+        .domain {
+            color: #aaa;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        
+        /* 主内容 */
+        .main-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 20px;
+            flex-grow: 1;
+        }
+        
+        .brand-logo {
+            font-size: 12px;
+            color: #aaa;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+        
+        .brand-name {
+            font-size: 3.2rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+        
+        .brand-subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 50px;
+            letter-spacing: 2px;
+            line-height: 1.4;
+        }
+        
+        /* 主要按钮 */
+        .main-btn {
+            display: inline-block;
+            background-color: #fff;
+            color: #000;
+            padding: 18px 40px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            margin: 30px 0 60px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            width: 90%;
+            max-width: 350px;
+        }
+        
+        .main-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            background-color: #f5f5f5;
+        }
+        
+        /* 社交媒体部分 */
+        .social-section {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+            width: 90%;
+            max-width: 350px;
+            padding: 15px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .social-link:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-right: 15px;
+        }
+        
+        .telegram .social-icon {
+            background-color: #0088cc;
+        }
+        
+        .instagram .social-icon {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+        }
+        
+        .whatsapp .social-icon {
+            background-color: #25D366;
+        }
+        
+        .social-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            flex-grow: 1;
+            text-align: left;
+        }
+        
+        /* 客服部分 */
+        .support-section {
+            width: 100%;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .support-text {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.5;
+        }
+        
+        .support-btn {
+            display: inline-block;
+            background-color: transparent;
+            color: #fff;
+            padding: 15px 40px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            border: 2px solid #fff;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .support-btn:hover {
+            background-color: #fff;
+            color: #000;
+            transform: translateY(-3px);
+        }
+        
+        /* 页脚 */
+        .footer {
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            color: #888;
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 响应式调整 */
+        @media (min-width: 768px) {
+            .phone-container {
+                max-width: 400px;
+                margin: 0 auto;
+                padding: 30px 20px;
+            }
+            
+            .brand-name {
+                font-size: 3.5rem;
+            }
+            
+            .main-btn, .social-link, .support-btn {
+                width: 100%;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.6s;
+            opacity: 0;
+        }
+        
+        .delay-4 {
+            animation-delay: 0.8s;
+            opacity: 0;
+        }
+        
+        .delay-5 {
+            animation-delay: 1.0s;
+            opacity: 0;
+        }
+        
+        /* 导航指示器 */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            z-index: 10;
+        }
+        
+        .scroll-arrow {
+            font-size: 20px;
+            margin-bottom: 5px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景图片 -->
+    <div class="bg-image"></div>
+    <div class="overlay"></div>
+    
+    <!-- 手机容器 -->
+    <div class="phone-container">
+        <!-- 顶部状态栏 -->
+        <div class="status-bar fade-in">
+         
+        
+        <!-- 主内容 -->
+        <div class="main-content">
+          
+            
+            <!-- 品牌名称 -->
+            <h1 class="brand-name delay-2 fade-in">Coolcept</h1>
+            <div class="brand-subtitle delay-2 fade-in">БРЕНД СТИЛЬНОЙ ОБУВИ</div>
+            
+            <!-- 主要购买按钮 -->
+            <a href="https://www.wildberries.ru/seller/4271537" class="main-btn delay-3 fade-in" target="_blank" id="wb-link">
+                КУПИТЬ НА WB
+            </a>
+            
+            <!-- 社交媒体部分 -->
+            <div class="social-section">
+                <div class="section-title delay-4 fade-in">Подписывайтесь на нас</div>
+                
+                <div class="social-links">
+                    <!-- Telegram频道链接 -->
+                    <a href="#" class="social-link telegram delay-4 fade-in" target="_blank" id="telegram-link">
+                        <div class="social-icon">
+                            <i class="fab fa-telegram-plane"></i>
+                        </div>
+                        <div class="social-name">ТГ КАНАЛ</div>
+                        <i class="fas fa-external-link-alt" style="font-size: 1rem; opacity: 0.7;"></i>
+                    </a>
+                    
+                    <!-- Instagram链接 -->
+                    <a href="#" class="social-link instagram delay-5 fade-in" target="_blank" id="instagram-link">
+                        <div class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="social-name">INSTAGRAM</div>
+                        <i class="fas fa-external-link-alt" style="font-size: 1rem; opacity: 0.7;"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 客服部分 -->
+            <div class="support-section">
+                <div class="support-text delay-3 fade-in">С радостью ответим на вопросы!</div>
+                <a href="https://wa.me/79991234567" class="support-btn delay-4 fade-in" target="_blank" id="whatsapp-support">
+                    WHATSAPP
+                </a>
+            </div>
+        </div>
+        
+     
+
+    <script>
+        // 更新时间显示
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            
+            // 格式化为两位数
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            
+            document.getElementById('current-time').textContent = `${hours}:${minutes}`;
+        }
+        
+        // 初始化时间
+        updateTime();
+        // 每分钟更新一次时间
+        setInterval(updateTime, 60000);
+        
+        // 添加链接点击事件和提示
+        document.getElementById('wb-link').addEventListener('click', function(e) {
+            console.log('用户点击了Wildberries购买链接');
+            // 这里可以添加点击统计代码
+        });
+        
+        // Telegram链接点击事件
+        document.getElementById('telegram-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const telegramUrl = prompt("请输入您的Telegram频道链接：", "https://t.me/yourchannel");
+            if (telegramUrl && telegramUrl.trim() !== '') {
+                window.open(telegramUrl.trim(), '_blank');
+            }
+        });
+        
+        // Instagram链接点击事件
+        document.getElementById('instagram-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const instagramUrl = prompt("请输入您的Instagram链接：", "https://instagram.com/yourprofile");
+            if (instagramUrl && instagramUrl.trim() !== '') {
+                window.open(instagramUrl.trim(), '_blank');
+            }
+        });
+        
+        // WhatsApp支持按钮
+        document.getElementById('whatsapp-support').addEventListener('click', function(e) {
+            console.log('用户点击了WhatsApp客服链接');
+            // 可以在这里添加点击统计
+        });
+        
+        // 滚动隐藏指示器
+        window.addEventListener('scroll', function() {
+            const indicator = document.querySelector('.scroll-indicator');
+            if (window.scrollY > 100) {
+                indicator.style.opacity = '0';
+                indicator.style.transition = 'opacity 0.5s';
+            } else {
+                indicator.style.opacity = '1';
+            }
+        });
+        
+        // 页面加载完成后的动画
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有动画元素添加延迟
+            const animatedElements = document.querySelectorAll('.fade-in');
+            animatedElements.forEach((el, index) => {
+                // 设置每个元素的延迟
+                if (el.classList.contains('delay-1')) {
+                    el.style.animationDelay = '0.2s';
+                } else if (el.classList.contains('delay-2')) {
+                    el.style.animationDelay = '0.4s';
+                } else if (el.classList.contains('delay-3')) {
+                    el.style.animationDelay = '0.6s';
+                } else if (el.classList.contains('delay-4')) {
+                    el.style.animationDelay = '0.8s';
+                } else if (el.classList.contains('delay-5')) {
+                    el.style.animationDelay = '1.0s';
+                }
+            });
+            
+            // 添加页面加载完成的类
+            document.body.classList.add('loaded');
+        });
+        
+        // 背景图片数组（可以更换不同的鞋子图片）
+        const bgImages = [
+            'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+            'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2025&q=80',
+            'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2064&q=80',
+            'https://images.unsplash.com/photo-1603808033192-082d6919d3e1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2095&q=80'
+        ];
+        
+        // 随机切换背景图片（每30秒切换一次）
+        let currentBgIndex = 0;
+        function changeBackground() {
+            const bgElement = document.querySelector('.bg-image');
+            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
+            
+            // 创建新的背景图片元素
+            const newBg = document.createElement('div');
+            newBg.style.position = 'fixed';
+            newBg.style.top = '0';
+            newBg.style.left = '0';
+            newBg.style.width = '100%';
+            newBg.style.height = '100%';
+            newBg.style.backgroundImage = `url(${bgImages[currentBgIndex]})`;
+            newBg.style.backgroundSize = 'cover';
+            newBg.style.backgroundPosition = 'center';
+            newBg.style.backgroundRepeat = 'no-repeat';
+            newBg.style.opacity = '0';
+            newBg.style.zIndex = '-2';
+            newBg.style.transition = 'opacity 1.5s ease';
+            
+            document.body.appendChild(newBg);
+            
+            // 淡入新背景
+            setTimeout(() => {
+                newBg.style.opacity = '0.7';
+            }, 50);
+            
+            // 淡出旧背景并移除
+            setTimeout(() => {
+                bgElement.style.opacity = '0';
+                setTimeout(() => {
+                    if (document.body.contains(bgElement)) {
+                        document.body.removeChild(bgElement);
+                    }
+                    newBg.style.zIndex = '-1';
+                }, 1500);
+            }, 1500);
+            
+            // 更新背景元素引用
+            document.querySelector('.bg-image').remove();
+            newBg.classList.add('bg-image');
+        }
+        
+        // 每30秒切换一次背景
+        // setInterval(changeBackground, 30000);
+        
+        // 如果需要自动切换背景，取消上面的注释
+    </script>
+</body>
+</html>
